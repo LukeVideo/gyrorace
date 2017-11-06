@@ -1,6 +1,7 @@
-
 var phaser_Width = 1000
 var phaser_Height = 600;
+
+
 
 // var game = new Phaser.Game(144, 100, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
 var game = new Phaser.Game(phaser_Width, phaser_Height, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
@@ -26,6 +27,7 @@ function initSocketIO()
 }
 
 initSocketIO()
+
 
 function preload()
 {
@@ -63,7 +65,7 @@ function preload()
 }
 
 var cursors;
-var position = 0;
+var position = 100;
 var terrain_De_Base;
 var terrain_De_Base_J2;
 var position_terrain_J1 = 0;
@@ -77,8 +79,6 @@ var position_blob_J1 = 0;
 var position_blob_J2 = 0;
 var vitesse_global_terrin = 1;
 var vitesse_global_blob = 1 * vitesse_global_terrin;
-var vitesse_blob_01 = vitesse_global_blob * 0.5;
-var vitesse_blob_02 = vitesse_global_blob * 0.4;
 var blob_01_walk;
 var blob_02_walk;
 var group_Graph;
@@ -86,11 +86,11 @@ var group_Graph;
 
 var backgroundMusic;
 
-function init()
+
+function create()
 {
 
-    game.world.removeAll();
-
+    "use strict";
 
     var img_Par_Seconde = 60;
     var seconde_Min_Finir_le_jeu = 15;
@@ -154,37 +154,11 @@ function init()
 
     group_Graph = game.add.group();
 
-
-}
-
-function reset()
-{
-
-    position = 0;
-    position_terrain_J1 = 0;
-    position_terrain_J2 = 0;
-    longueur_Du_Monde = 10000;
-    angle_J1 = 0;
-    angle_J2 = 0;
-    position_blob_J1 = 0;
-    position_blob_J2 = 0;
-    vitesse_blob_01 = vitesse_global_blob * 0.5;
-
-
-}
-
-function create()
-{
-
-    "use strict";
-
     backgroundMusic = game.add.audio('boden');
     backgroundMusic.loop = true; // This is what you are lookig for
     backgroundMusic.play();
 
 
-    init();
-    reset();
 }
 
 function is_Sur_De_La_Terre_02(pj_local_relatif, monde)
@@ -281,7 +255,7 @@ function rafraichir_Position()
     }
 
     // gauche
-    if (cursors.left.isDown)
+    if (cursors.left.isDown )
     {
         position -= 5;
         position_terrain_J2 -= 10 * vitesse_global_terrin;
@@ -293,29 +267,22 @@ function rafraichir_Position()
     position_terrain_J1 = position_terrain_J1 % 10000;
     position_terrain_J2 = position_terrain_J2 % 10000;
 
-    position_blob_J1 += vitesse_blob_01;
-    position_blob_J2 -= vitesse_blob_02;
+    position_blob_J1 += 0.5 * vitesse_global_blob;
+    position_blob_J2 -= 0.2 * vitesse_global_blob;
 
     // position_blob_J1 = position_blob_J1 % 1000;
     // position_blob_J2 = position_blob_J2 % 1000;
 
     position = position % 1000;
 
-    // joueur vitesse_blob_02
     if (position_blob_J1 > 500)
     {
         position_blob_J1 -= 2;
-        vitesse_blob_02 += 0.2;
-        init();
-        reset();
     }
 
     if (position_blob_J2 < -500)
     {
         position_blob_J2 += 2;
-        vitesse_blob_02 -= 0.2;
-        init();
-        reset();
     }
 
 
@@ -546,14 +513,14 @@ function afficher_Terrain_Rond(graphics)
             graphics.arc(300, 300, 200, game.math.degToRad(x_02), game.math.degToRad(x_01), true);
 
 
-            console.log(position_terrain);
+            // console.log(position_terrain);
 
         }
         else
         {
             position_terrain += terrain_De_Base_J2[i];
 
-            console.log(position_terrain);
+            // console.log(position_terrain);
         }
 
     }

@@ -5,28 +5,6 @@ var phaser_Height = 600;
 // var game = new Phaser.Game(144, 100, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
 var game = new Phaser.Game(phaser_Width, phaser_Height, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
 
-var faster = 0
-
-function initSocketIO()
-{
-  iosocket = io.connect();
-  console.log('io !');
-  iosocket.on('onconnection', function(value) {
-  faster = value.pollOneValue; // recieve start poll value from server
-
-
-
-  // recieve changed values by other client from server
-  iosocket.on('updateData', function (recievedData) {
-    faster = recievedData.pollOneValue; // recieve start poll value from server
-    console.log("faster "+ faster);
-  });
-
-    });
-}
-
-initSocketIO()
-
 function preload()
 {
     /**
@@ -75,7 +53,7 @@ var phaser_01;
 var phaser_02;
 var position_blob_J1 = 0;
 var position_blob_J2 = 0;
-var vitesse_global_terrin = 1;
+var vitesse_global_terrin = 4;
 var vitesse_global_blob = 1 * vitesse_global_terrin;
 var vitesse_blob_01 = vitesse_global_blob * 0.5;
 var vitesse_blob_02 = vitesse_global_blob * 0.4;
@@ -194,7 +172,7 @@ function is_Sur_De_La_Terre_02(pj_local_relatif, monde)
 
     var index_section;
 
-    /// les 2 sur 10 000
+    /// les 2 sur 10 000 
     var pj_Local = pj_local_relatif;
 
     for (var i = 0; i < terrain_De_Base.length; i++)
@@ -226,11 +204,11 @@ function is_Sur_De_La_Terre_02(pj_local_relatif, monde)
 
 function is_Sur_De_La_Terre(position_du_joueur, offset_Monde_01, offset_Monde_02)
 {
-
+    
 
     // sur 10 000
     var pj_local_relatif = position_du_joueur * 10 - offset_Monde_01;
-
+    
     var index_section;
 
     var is_Sol_Solide = false;
@@ -272,10 +250,8 @@ function rafraichir_Position()
     position += 1;
 
     // droite
-    if (cursors.right.isDown || faster >= 2)
+    if (cursors.right.isDown)
     {
-        console.log("cursor faster= ")
-        console.log(faster)
         position += 5;
         position_terrain_J1 += 10 * vitesse_global_terrin;
     }
@@ -370,13 +346,13 @@ function afficher_Joueur()
 function afficher_Terrain_Rond(graphics)
 {
 
-    // create a group myGraphic = game.add.graphics(0,0);
-    // create graphicmyGraphic.beginFill(0x00FFFF, 1);
-    // paint graphic a colourmyGraphic.boundsPadding = 0;myGraphic.drawRect(0, 0, 100, 100);
-    // draw graphic to screen myGroup.add(myGraphic);
-    // add graphic to group myText = game.add.text(0,0,"text",{font:"bold 12px Arial",fill:"#000"});
-    // create text myGroup.add(myText); // add text to group myGroup.visible = false;
-    // hide myGraphic AND myText myGroup.visible = true;
+    // create a group myGraphic = game.add.graphics(0,0); 
+    // create graphicmyGraphic.beginFill(0x00FFFF, 1); 
+    // paint graphic a colourmyGraphic.boundsPadding = 0;myGraphic.drawRect(0, 0, 100, 100); 
+    // draw graphic to screen myGroup.add(myGraphic); 
+    // add graphic to group myText = game.add.text(0,0,"text",{font:"bold 12px Arial",fill:"#000"}); 
+    // create text myGroup.add(myText); // add text to group myGroup.visible = false; 
+    // hide myGraphic AND myText myGroup.visible = true; 
     // show myGraphic AND myText
 
 
@@ -563,22 +539,22 @@ function afficher_Terrain_Rond(graphics)
 
 
     /*
-
-
+    
+    
         var x_01 = -100;
         var x_02 = 100;
         var longeur_Rectangle = x_02 - x_01;
-
-
+    
+    
         graphics.beginFill(0x80FF80, 1);
         graphics.lineStyle(2, 0x80FF80, 1);
-
+    
         //// draw a rectangle
         graphics.drawRect(x_01, 500, longeur_Rectangle, 50);
-
+    
         graphics.endFill();
-
-
+    
+    
     */
 
 

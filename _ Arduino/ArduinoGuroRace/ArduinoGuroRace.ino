@@ -14,12 +14,10 @@ const int digitalInPin = 10;
 int sensorValue = 0;        // value read from the potmeter
 int prevValue = 0;          // previous value from the potmeter
 
-/* jimi */
-const int gyroLed = 2;
-//const int gyroLed = 13;
-const int minNb = 2;        // Minimum nomber of laps before acceleration
+/* jimi's mods*/
+const int gyroLed = 2;      // LED on top of the controler.
+const int minNb = 2;        // Minimum number of laps before acceleration
 int cpt = 0;
-//const int buttonPin = 2;     // the number of the pushbutton pin
 long temps;
 
 void setup() {
@@ -35,42 +33,20 @@ void setup() {
 
   pinMode(gyroLed,OUTPUT);
 
-  /* jimi */
-  //pinMode(buttonPin, INPUT);
-  temps = millis();      // on initialise le temps
+  /* jimi's mods*/
+  temps = millis();         // Time initialization.
 }
 
 void loop() {
-/*
-  digitalWrite(gyroLed, HIGH);   // turn the LED on (HIGH is the voltage level)
-  delay(1000);                       // wait for a second
-  digitalWrite(gyroLed, LOW);    // turn the LED off by making the voltage LOW
-  delay(1000); 
- */
     // state PhotoCaptor
-    /* jimi
-     *  sensorValue = digitalRead(buttonPin);
-    */
+
     sensorValue = digitalRead(digitalInPin);
     delay(50);
     // read the analog in value:
     if(prevValue != sensorValue){
-      //Serial.print("B"); // begin character 
-      //Serial.print(sensorValue);  
-      //Serial.print("E"); // end character
       prevValue = sensorValue;
-      //Serial.print('\n');
-/*
-      // turn on the led if the photocaptor value is 1
-      if (sensorValue == 1) {
-        digitalWrite(gyroLed, HIGH);
-        } 
-      else {
-        digitalWrite(gyroLed, LOW);
-        } 
-   }
-    */
-    /* jimi */
+
+    /* jimi's mods*/
     if (sensorValue == 1) {
       cpt++;
     }
@@ -79,9 +55,9 @@ void loop() {
     Serial.print("E"); // end character
     Serial.print('\n');
 
-  }/* jimi */
+  }/* jimi's mods*/
   else {
-    if((millis() - temps) > 500) {
+    if((millis() - temps) > 500) {  // If time elapsed is greater than 500 ms
       if(cpt > 0) {
         cpt--;
         }
